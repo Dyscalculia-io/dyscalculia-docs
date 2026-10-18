@@ -1,0 +1,112 @@
+[
+ {
+  "name": "WordPress.com",
+  "paste": "Paste the script code",
+  "steps": [
+   "Open the post or page you want the game on and select the block inserter (+).",
+   "Search for HTML and choose the Custom HTML block.",
+   "Select Edit HTML if the block shows a preview, paste the code and select Update (or Publish).",
+   "Open the live page, not the editor preview, to check the game and the credit line under it.",
+   "If the code is gone after saving, your plan strips scripts: see the note below, then use the plain frame code or a link to the game page."
+  ],
+  "limits": "Scripts and frames are kept only on a paid plan with hosting features active (the help page says a paid plan alone is not enough). On the free plan they are removed when you save, so link to the game page with a normal link instead. Self-hosted WordPress.org uses the same block name, but its rules were not verified from official documentation: check in your editor.",
+  "verified": true,
+  "source": "https://wordpress.com/support/wordpress-editor/blocks/custom-html-block/"
+ },
+ {
+  "name": "Wix",
+  "paste": "Paste the plain frame code",
+  "steps": [
+   "In the editor choose Add Elements → Embed Code → Embed HTML.",
+   "Click Enter Code, paste the code and press Apply.",
+   "Set the element width and height to 100% so the game is not cropped.",
+   "Publish the site and open it over https to see the game."
+  ],
+  "limits": "Only HTTPS addresses show once published.",
+  "verified": true,
+  "source": "https://support.wix.com/en/the-wix-editor/more/article/adding-html-code"
+ },
+ {
+  "name": "Squarespace",
+  "paste": "Paste the script code",
+  "steps": [
+   "Edit the page and add a Code block (or an Embed block with a code snippet).",
+   "In the Code block set the mode to HTML and paste the code.",
+   "Save, then open the page in a private window to check it."
+  ],
+  "limits": "Code blocks need a Core, Plus or Advanced plan; Embed blocks are on all plans. Code can be hidden while you are logged in, so test in a private window.",
+  "verified": true,
+  "source": "https://support.squarespace.com/hc/en-us/articles/206543167-Using-code-blocks"
+ },
+ {
+  "name": "Google Sites",
+  "paste": "Paste the plain frame code",
+  "steps": [
+   "Open the page in the desktop editor.",
+   "Choose Insert → Embed → Embed code.",
+   "Paste the code, press Next, then Insert.",
+   "Click Publish: the game only shows on the published site."
+  ],
+  "limits": "JavaScript must sit inside script tags. Desktop editor only.",
+  "verified": true,
+  "source": "https://support.google.com/sites/answer/90569?hl=en"
+ },
+ {
+  "name": "Carrd",
+  "paste": "Paste the script code",
+  "steps": [
+   "Add an Embed element to the page.",
+   "Set Type to Code and Style to Inline.",
+   "Paste the code and publish the site."
+  ],
+  "limits": "Needs Pro Standard or higher. Nothing shows in the builder; publish to see it.",
+  "verified": true,
+  "source": "https://carrd.com/docs/building/embedding-custom-code"
+ },
+ {
+  "name": "Notion",
+  "paste": "Paste the game address only",
+  "steps": [
+   "On your Notion page type /embed and pick Embed.",
+   "Paste the game address (the https://… link from the builder's frame code, the src value).",
+   "Press Embed link and drag the corner to resize."
+  ],
+  "limits": "Notion takes an address only: no script, no pasted frame code, so no credit line is written. Add a normal link to the game page as a fallback.",
+  "verified": true,
+  "source": "https://www.notion.com/help/embed-and-connect-other-apps"
+ },
+ {
+  "name": "Webflow",
+  "paste": "Paste the script code",
+  "steps": [
+   "Add a Code Embed element inside a container.",
+   "Paste the code (leave out html, body and head tags).",
+   "Preview, then publish."
+  ],
+  "limits": "Needs a paid site plan. Read from help-center snippets: check in your editor.",
+  "verified": false
+ },
+ {
+  "name": "Ghost",
+  "paste": "Paste the plain frame code",
+  "steps": [
+   "In the post editor type /html or add an HTML card.",
+   "Paste the code.",
+   "Publish and check the live page: the editor only shows a placeholder."
+  ],
+  "limits": "Whether scripts run is not stated on the official page: check in your editor, and use the plain frame if the script is removed.",
+  "verified": false
+ },
+ {
+  "name": "Shopify, Blogger, Weebly",
+  "paste": "Paste the plain frame code",
+  "steps": [
+   "Shopify: add a Custom Liquid or Custom HTML section.",
+   "Blogger: add an HTML/JavaScript gadget.",
+   "Weebly: drag in an Embed Code element.",
+   "Paste the code and publish."
+  ],
+  "limits": "Steps and limits could not be confirmed from the official pages: check in your editor.",
+  "verified": false
+ }
+]

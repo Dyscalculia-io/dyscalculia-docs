@@ -1,0 +1,22 @@
+{
+  "name": "dyscalculia-docs",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Developer documentation for Dyscalculia.io (docs.dyscalculia.io): static HTML generated at build time. The tool reference comes from the MCP package and every number from the data package, so the docs cannot drift from them.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "sync": "node scripts/sync-from-site.mjs",
+    "serve": "npx --yes serve dist -l 4000"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "dyscalculia-data": "^0.1.0",
+    "dyscalculia-embed": "^0.1.0",
+    "dyscalculia-mcp": "^0.1.0"
+  },
+  "homepage": "https://docs.dyscalculia.io",
+  "bugs": { "url": "https://github.com/Dyscalculia-io/dyscalculia-docs/issues" },
+  "repository": { "type": "git", "url": "git+https://github.com/Dyscalculia-io/dyscalculia-docs.git" },
+  "license": "MIT"
+}

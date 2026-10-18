@@ -1,0 +1,342 @@
+{
+  "MCP_URL": "https://mcp.dyscalculia.io/mcp",
+  "MCP_NPM": "dyscalculia-mcp",
+  "MCP_CLIENTS": [
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "summary": "Add the hosted URL with one command. A local install works too.",
+      "steps": [
+        "Run the command in a terminal. `--scope user` makes the server available in all your projects; without it the server only applies to the current project.",
+        "`claude mcp list` should show the server as **Connected**. Inside Claude Code, `/mcp` shows the same status.",
+        "To share the server with a team, use `--scope project`: the command writes a `.mcp.json` file in the project root that you can commit."
+      ],
+      "code": [
+        {
+          "label": "Hosted (recommended)",
+          "code": "claude mcp add --transport http --scope user dyscalculia https://mcp.dyscalculia.io/mcp"
+        },
+        {
+          "label": "Local (npx)",
+          "code": "claude mcp add --scope user dyscalculia -- npx -y dyscalculia-mcp"
+        },
+        {
+          "label": ".mcp.json (project)",
+          "code": "{\n  \"mcpServers\": {\n    \"dyscalculia\": {\n      \"type\": \"http\",\n      \"url\": \"https://mcp.dyscalculia.io/mcp\"\n    }\n  }\n}"
+        },
+        {
+          "label": "Check / remove",
+          "code": "claude mcp list\nclaude mcp get dyscalculia\nclaude mcp remove dyscalculia"
+        }
+      ],
+      "note": "The `--` separates Claude's own options from the command that starts the server. Keep it in the `npx` line.",
+      "source": {
+        "label": "Claude Code: MCP",
+        "url": "https://code.claude.com/docs/en/mcp"
+      }
+    },
+    {
+      "id": "claude",
+      "name": "Claude (claude.ai and Desktop)",
+      "summary": "A remote server is added as a custom connector. It needs the hosted URL; `npx` does not work here.",
+      "steps": [
+        "**Pro and Max:** open the **+** menu in the chat box, choose **Add custom connector**, paste the URL below and press **Add**. No sign-in is needed, so leave the OAuth fields under *Advanced settings* empty.",
+        "**Team and Enterprise:** an Owner first adds the connector in the organization's Connectors settings: **Add → Custom → Web**. Members then find it in their list and press **Connect**.",
+        "Open a new chat, switch the connector on and try the check prompt further down this page."
+      ],
+      "code": [
+        {
+          "label": "Connector URL",
+          "code": "https://mcp.dyscalculia.io/mcp"
+        }
+      ],
+      "note": "Menu names in Claude change from time to time. If you do not see the option, search Claude's help for *custom connectors*. Anthropic warns on its own page that custom connectors can reach unverified services.",
+      "source": {
+        "label": "Claude help: custom connectors (remote MCP)",
+        "url": "https://support.claude.com/en/articles/11175166-about-custom-connectors-remote-mcp"
+      }
+    },
+    {
+      "id": "claude-desktop",
+      "name": "Claude Desktop (local)",
+      "summary": "To run the server on your own machine with `npx`, add it to Claude Desktop's config file.",
+      "steps": [
+        "From the Claude menu open **Settings → Developer → Edit Config**. The file is `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS and `%APPDATA%\\Claude\\claude_desktop_config.json` on Windows.",
+        "Add the block below inside `mcpServers`. If the file already has other servers, add only the `dyscalculia` entry.",
+        "Quit Claude Desktop completely and reopen it. The server appears under the **+** menu in the chat box, **Connectors → Manage connectors**."
+      ],
+      "code": [
+        {
+          "label": "claude_desktop_config.json",
+          "code": "{\n  \"mcpServers\": {\n    \"dyscalculia\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"dyscalculia-mcp\"]\n    }\n  }\n}"
+        }
+      ],
+      "note": "If it does not connect, read the logs: `~/Library/Logs/Claude/mcp*.log` on macOS, `%APPDATA%\\Claude\\logs` on Windows. Node.js must be installed (`node --version`).",
+      "source": {
+        "label": "MCP: connect to local servers",
+        "url": "https://modelcontextprotocol.io/docs/develop/connect-local-servers"
+      }
+    },
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "summary": "Only a remote (hosted) server works. ChatGPT cannot start a local `npx` process.",
+      "steps": [
+        "In ChatGPT **Settings**, turn on **Developer mode**. The switch is usually under *Apps / Connectors → Advanced*, and under *Security* on some accounts.",
+        "On the connectors page press **Create**. Use `Dyscalculia.io` as the name, one sentence as the description (for example *Dyscalculia prevalence figures and study sources*) and the URL below.",
+        "Choose **No authentication**, tick the trust box and create the connector.",
+        "In a new chat, enable the connector from the tools menu."
+      ],
+      "code": [
+        {
+          "label": "Connector URL",
+          "code": "https://mcp.dyscalculia.io/mcp"
+        }
+      ],
+      "note": "Which plans include Developer mode, and its menu names, change on OpenAI's side. On Business and Enterprise an admin may have to allow custom connectors. None of the tools writes anything; all six are read-only.",
+      "source": {
+        "label": "Adding a remote MCP server to ChatGPT (Auth0 guide)",
+        "url": "https://auth0.com/blog/add-remote-mcp-server-chatgpt/"
+      }
+    },
+    {
+      "id": "codex",
+      "name": "Codex",
+      "summary": "The Codex CLI and the IDE extension read the same `config.toml`. Use `--url` for hosted, `npx` for local.",
+      "steps": [
+        "Run one of the commands. Codex writes the configuration to `~/.codex/config.toml`.",
+        "To edit by hand, add a `[mcp_servers.dyscalculia]` table to that file. For a per-project setup, put the table in `.codex/config.toml` at the root of a trusted project.",
+        "Restart Codex and try the check prompt below."
+      ],
+      "code": [
+        {
+          "label": "Hosted (recommended)",
+          "code": "codex mcp add dyscalculia --url https://mcp.dyscalculia.io/mcp"
+        },
+        {
+          "label": "Local (npx)",
+          "code": "codex mcp add dyscalculia -- npx -y dyscalculia-mcp"
+        },
+        {
+          "label": "config.toml (hosted)",
+          "code": "[mcp_servers.dyscalculia]\nurl = \"https://mcp.dyscalculia.io/mcp\""
+        },
+        {
+          "label": "config.toml (local)",
+          "code": "[mcp_servers.dyscalculia]\ncommand = \"npx\"\nargs = [\"-y\", \"dyscalculia-mcp\"]"
+        }
+      ],
+      "source": {
+        "label": "Codex: MCP",
+        "url": "https://learn.chatgpt.com/docs/extend/mcp?surface=cli"
+      }
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "summary": "Add a URL or a command to `mcp.json`, for one project or for every project.",
+      "steps": [
+        "Create (or open) `~/.cursor/mcp.json` for all projects, or `.cursor/mcp.json` in a project root for that project only.",
+        "Add one of the blocks below inside `mcpServers` and save.",
+        "In Cursor's settings, open the **MCP** section and check that the server is on and its tools are listed."
+      ],
+      "code": [
+        {
+          "label": "Hosted (recommended)",
+          "code": "{\n  \"mcpServers\": {\n    \"dyscalculia\": {\n      \"url\": \"https://mcp.dyscalculia.io/mcp\"\n    }\n  }\n}"
+        },
+        {
+          "label": "Local (npx)",
+          "code": "{\n  \"mcpServers\": {\n    \"dyscalculia\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"dyscalculia-mcp\"]\n    }\n  }\n}"
+        }
+      ],
+      "source": {
+        "label": "Cursor: MCP",
+        "url": "https://cursor.com/docs/context/mcp"
+      }
+    },
+    {
+      "id": "vscode",
+      "name": "VS Code",
+      "summary": "The workspace file is `.vscode/mcp.json`. Its top-level key is `servers`, not `mcpServers`.",
+      "steps": [
+        "Create `.vscode/mcp.json` in the project root and paste one of the blocks below. The **MCP: Add Server** command in the Command Palette walks through the same setup.",
+        "Start the server with the **Start** link that appears above it in the file. The tools show up in Copilot Chat's Agent mode.",
+        "To add the local server to your user profile instead of one workspace, use the command-line form."
+      ],
+      "code": [
+        {
+          "label": "Hosted (recommended)",
+          "code": "{\n  \"servers\": {\n    \"dyscalculia\": {\n      \"type\": \"http\",\n      \"url\": \"https://mcp.dyscalculia.io/mcp\"\n    }\n  }\n}"
+        },
+        {
+          "label": "Local (npx)",
+          "code": "{\n  \"servers\": {\n    \"dyscalculia\": {\n      \"type\": \"stdio\",\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"dyscalculia-mcp\"]\n    }\n  }\n}"
+        },
+        {
+          "label": "User profile (local)",
+          "code": "code --add-mcp \"{\\\"name\\\":\\\"dyscalculia\\\",\\\"command\\\":\\\"npx\\\",\\\"args\\\":[\\\"-y\\\",\\\"dyscalculia-mcp\\\"]}\""
+        }
+      ],
+      "source": {
+        "label": "VS Code: MCP servers",
+        "url": "https://code.visualstudio.com/docs/copilot/customization/mcp-servers"
+      }
+    },
+    {
+      "id": "gemini-cli",
+      "name": "Gemini CLI",
+      "summary": "Use `gemini mcp add` or edit `settings.json`. The key for a remote server is `httpUrl`.",
+      "steps": [
+        "Run the command. The default scope is *project*; add `-s user` to use the server everywhere (it is written to `~/.gemini/settings.json`).",
+        "If you edit the file by hand, use **`httpUrl`**, not `url`, for a remote Streamable HTTP server: `url` is for the older SSE address."
+      ],
+      "code": [
+        {
+          "label": "Hosted (recommended)",
+          "code": "gemini mcp add -s user --transport http dyscalculia https://mcp.dyscalculia.io/mcp"
+        },
+        {
+          "label": "settings.json (hosted)",
+          "code": "{\n  \"mcpServers\": {\n    \"dyscalculia\": {\n      \"httpUrl\": \"https://mcp.dyscalculia.io/mcp\"\n    }\n  }\n}"
+        },
+        {
+          "label": "settings.json (local)",
+          "code": "{\n  \"mcpServers\": {\n    \"dyscalculia\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"dyscalculia-mcp\"]\n    }\n  }\n}"
+        }
+      ],
+      "source": {
+        "label": "Gemini CLI: MCP servers",
+        "url": "https://geminicli.com/docs/tools/mcp-server/"
+      }
+    },
+    {
+      "id": "other",
+      "name": "Any other client",
+      "summary": "Any MCP client that supports Streamable HTTP works with the hosted URL. Clients that only support stdio use `npx`.",
+      "steps": [
+        "Enter the URL below in the client's remote MCP server field. There is no authentication and no header to set.",
+        "For a client that only supports local (stdio) servers, set the command to `npx` and the arguments to `-y dyscalculia-mcp`.",
+        "To check the connection without any client, the `curl` command below returns the tool list."
+      ],
+      "code": [
+        {
+          "label": "URL",
+          "code": "https://mcp.dyscalculia.io/mcp"
+        },
+        {
+          "label": "Check with curl",
+          "code": "curl -s https://mcp.dyscalculia.io/mcp \\\n  -H 'content-type: application/json' \\\n  -H 'accept: application/json, text/event-stream' \\\n  -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}'"
+        }
+      ],
+      "note": "The server is stateless and accepts only `POST /mcp`, so opening the address in a browser returns 405. That is normal. `https://mcp.dyscalculia.io/health` answers `ok`.",
+      "source": {
+        "label": "Model Context Protocol",
+        "url": "https://modelcontextprotocol.io"
+      }
+    }
+  ],
+  "GITHUB_ORG": "https://github.com/Dyscalculia-io",
+  "MCP_REPO": "https://github.com/Dyscalculia-io/dyscalculia-mcp",
+  "DATA_REPO": "https://github.com/Dyscalculia-io/dyscalculia-data",
+  "EMBED_REPO": "https://github.com/Dyscalculia-io/dyscalculia-embed",
+  "MCP_CHECK_PROMPT": "Using Dyscalculia.io, what share of school-age children have dyscalculia, and what is the source?",
+  "MCP_CHECK_ANSWER": "about 3 to 6 percent, with the study it comes from and its year",
+  "MCP_EXAMPLES": [
+    "How common is dyscalculia in school-age children, and where does that number come from?",
+    "Which studies on dyscalculia and dyslexia overlap are listed, and how big were they?",
+    "I am writing a school report: give me the prevalence figures with a citation for each.",
+    "How does the free screening test work, and what does it not tell me?",
+    "Give me the data behind the dyscalculia charts as a table."
+  ],
+  "NOT_DOING": [
+    "**It does not screen or assess anyone.** It returns published figures and a description of how the free screening test works. It takes no answers, returns no scores and gives no result. The test itself runs on dyscalculia.io and is a screening, not a diagnosis; only a qualified professional can diagnose dyscalculia.",
+    "**It does not invent a single world rate.** No published meta-analysis gives one pooled figure, so the server returns the range from population studies and each study separately, each with its year.",
+    "**It gives no advice about a child.** The figures describe groups of children, not one child.",
+    "**It writes nothing, opens no account and spends no credits.** All six tools are read-only and need no API key or sign-in."
+  ],
+  "MCP_TROUBLESHOOTING": [
+    {
+      "q": "The tools do not appear in my client.",
+      "a": "Quit the client completely and reopen it; many clients read their MCP configuration only at start-up. Then check the JSON or TOML syntax: a trailing comma or a missing quote silently drops the server. In Claude Code `claude mcp list` shows whether it is connected, in Cursor the MCP settings page does, and in VS Code the status line above the server in `.vscode/mcp.json` does."
+    },
+    {
+      "q": "Opening the MCP address in a browser shows 405.",
+      "a": "That is expected. The server accepts only the `POST /mcp` request MCP clients send. To see that it is running, open https://mcp.dyscalculia.io/health (it answers `ok`) or run the `curl` command on this page."
+    },
+    {
+      "q": "ChatGPT or Claude does not show the custom connector option.",
+      "a": "Custom connectors depend on your plan and your organization's settings. In ChatGPT, Developer mode must be on, and on Business, Enterprise, Team and Edu accounts an admin has to allow connectors. Clients rename menus: search their help pages for *custom connector* to find the current path."
+    },
+    {
+      "q": "A tool returns an error.",
+      "a": "The input was invalid, for example a reference key that does not exist. The error message lists the valid choices; `list_studies` shows the available studies."
+    }
+  ],
+  "MCP_FAQ": [
+    {
+      "q": "What is the Dyscalculia.io MCP server?",
+      "a": "A free, read-only Model Context Protocol server that lets an AI assistant look up the figures on Dyscalculia.io's statistics page: prevalence from population studies, the studies themselves with their sources, how the free screening test is built, and how to cite it. The code is MIT-licensed; the compilation is CC BY 4.0."
+    },
+    {
+      "q": "Does it test my child or tell me whether they have dyscalculia?",
+      "a": "No. It returns published figures and a description of the test, never a result. The free screening test on dyscalculia.io is a screening, not a diagnosis; only a qualified professional can diagnose dyscalculia."
+    },
+    {
+      "q": "Do I need an account or an API key?",
+      "a": "No. The hosted server needs no sign-up, key or credit balance, and all six tools are read-only."
+    },
+    {
+      "q": "Where do the numbers come from?",
+      "a": "From the published studies listed on the statistics page. Each figure carries its data year and a source key, and the server returns both, so an assistant can cite them. Figures we calculated ourselves from a source are marked as ours."
+    },
+    {
+      "q": "Hosted or local: which should I use?",
+      "a": "Use the hosted URL unless you need to work offline or want to inspect the code you run. Both expose the same six tools. The hosted server needs no Node.js and works in ChatGPT and in Claude's custom connectors, which cannot launch a local npx process."
+    },
+    {
+      "q": "Which AI clients does it work with?",
+      "a": "Any client that speaks MCP: Claude (claude.ai, Desktop and Claude Code), ChatGPT through Developer mode connectors, Codex, Cursor, VS Code, Gemini CLI and others. The setup commands for each are on this page, taken from the clients' own documentation."
+    },
+    {
+      "q": "May I reuse the figures?",
+      "a": "The compilation (tables, charts and text) is licensed CC BY 4.0: credit Dyscalculia.io and link the statistics page. Each underlying figure belongs to the source it cites."
+    },
+    {
+      "q": "Is the code open source?",
+      "a": "Yes. The data package and the MCP server are MIT-licensed code in public repositories at github.com/Dyscalculia-io."
+    }
+  ],
+  "DATA_EXAMPLES": [
+    {
+      "label": "curl",
+      "code": "curl -s https://dyscalculia.io/data/dyscalculia-statistics.json | jq 'keys'"
+    },
+    {
+      "label": "Python (pandas)",
+      "code": "import pandas as pd\n\ndf = pd.read_csv(\"https://dyscalculia.io/data/dyscalculia-statistics.csv\", comment=\"#\")\ndf[df.type == \"chart\"][[\"title\", \"row\", \"value\", \"data_year\"]]"
+    },
+    {
+      "label": "R",
+      "code": "df <- read.csv(\"https://dyscalculia.io/data/dyscalculia-statistics.csv\", comment.char = \"#\")\nsubset(df, type == \"chart\")"
+    }
+  ],
+  "DEV_FAQ": [
+    {
+      "q": "Are the statistics free to use in a report or an app?",
+      "a": "Yes. The compilation (tables, charts and text) is licensed CC BY 4.0: credit Dyscalculia.io and link the statistics page. Each underlying figure belongs to the source it cites."
+    },
+    {
+      "q": "How current is the data?",
+      "a": "The files are built from the same content as the statistics page, so they match what the site shows. Each figure carries its data year, and the page states when it was last reviewed."
+    },
+    {
+      "q": "Do the files include the screening test results?",
+      "a": "No. The test runs in the browser and its answers stay on the device. The test description file lists the items and the scoring rules, not anyone's answers."
+    },
+    {
+      "q": "Can I put the number games on my own site?",
+      "a": "Yes. Five free practice games can be embedded in six languages. They are practice, not a test: they show no score and no result. See the embed page for the code."
+    }
+  ]
+}
