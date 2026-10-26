@@ -209,7 +209,7 @@ pages.push({
   path: "/mcp/tools", label: "Tool reference", title: "MCP Tool Reference: Parameters and Real Responses",
   description: `Reference for all ${tools.length} tools of the Dyscalculia.io MCP server: parameters, types, example requests and real responses generated from the package.`,
   h1: "Tool reference",
-  lede: `${tools.length} read-only tools. This page is generated at build time from the \`${S.MCP_NPM}@${mcpPkg.version}\` package: the parameters come from the server's own \`tools/list\` and the responses from calling each tool, so it cannot drift from the server.`,
+  lede: `${tools.length} read-only tools. This page is generated at build time from the \`${S.MCP_NPM}\` package (version ${mcpPkg.version}): the parameters come from the server's own \`tools/list\` and the responses from calling each tool, so it cannot drift from the server.`,
   blocks: [{ t: "note", text: "Every tool is read-only, needs no authentication and scores no one. Invalid input returns a result with `isError: true` and a message that lists the valid options." }, ...toolBlocks],
 });
 
@@ -238,7 +238,7 @@ pages.push({
     { t: "table", head: ["File", "Contents", "Address"], rows: [
       ["`dyscalculia-statistics.json`", "All rows of the page plus license and methodology date", stats.files.json],
       ["`dyscalculia-statistics.csv`", "One row per figure; the first three lines are `#` comments with title, address and license, so read it with `comment=\"#\"`", stats.files.csv],
-      ["`dyscalculia-statistics-chart-<n>.svg`", `One standalone SVG per chart (${stats.files.charts.length} charts)`, `${MAIN}/data/`],
+      ["`dyscalculia-statistics-chart-<n>.svg`", `One standalone SVG per chart (${stats.files.charts.length} charts)`, stats.files.charts.join(", ")],
       ["`screening-test.json`", "The five screening games: items, scoring rules and limits. No results, no one's answers", stats.files.screeningTest],
       ["`changelog.json`", "Dated changes to the site's test and method", stats.files.changelog],
     ] },
